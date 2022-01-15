@@ -1,0 +1,6 @@
+*.yml linguist-detectable
+*.j2 linguist-detectable
+*.cfg linguist-detectable
+*.conf linguist-detectable
+*.conf.local linguist-detectable
+*.ini linguist-detectable
