@@ -1,0 +1,11 @@
+- name: Ensure website repo is up to date
+  git:
+    repo: https://github.com/JannikWibker/website-v2
+    dest: "/home/{{ username }}/docker-images/website/repo"
+    single_branch: yes
+    version: master
+
+#- name: Ensure website is running
+#  community.docker.docker_compose:
+#    project_src: "/home/{{ username }}/docker-images/website"
+#    build: yes

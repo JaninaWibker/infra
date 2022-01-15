@@ -13,6 +13,7 @@
       - "--exclude=gitea/app.ini.j2"               # this uses a template (containers/gitea.yml)
       - "--exclude=bind9/zones/db.box.j2"          # this uses a template (containers/bind9.yml)
       - "--exclude=bind9/named.conf.options.j2"    # this uses a template (containers/bind9.yml)
+      - "--exclude=website/repo"                   # this uses git role   (containers/website.yml)
 
 - name: Ensure .env file for docker-compose is generated
   template:
@@ -42,3 +43,4 @@
 - import_tasks: ./tasks/containers/gitea.yml
 #- import_tasks: ./tasks/containers/plex.yml
 #- import_tasks: ./tasks/containers/traefik.yml
+- import_tasks: ./tasks/containers/website.yml
