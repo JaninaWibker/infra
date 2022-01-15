@@ -51,6 +51,10 @@ To run this the following has to be done / configured:
 This is the structure of my secret.yml file:
 
 ```yaml
+photoprism:
+  ADMIN_PASSWORD: "..." # this only sets the initial password, updating later on can be done using the web interface
+  DB_PASSWORD: "..."
+
 gitea: # gitea generates these values itself when they can't be found in the config file; start gitea without them and extract them afterwards
   LFS_JWT_SECRET: "..."
   INTERNAL_TOKEN: "..."
