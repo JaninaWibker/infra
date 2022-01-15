@@ -1,0 +1,32 @@
+version: '3.5'
+
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: bitwarden
+    restart: unless-stopped
+    environment:
+      - WEBSOCKET_ENABLED=true  # Enable WebSocket notifications.
+    volumes:
+      - vaultwarden-data:/data
+    networks:
+      - infra-network
+    ports: [] # listens on port 80 by default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.bitwarden.loadbalancer.server.port=80"
+      - "traefik.http.routers.bitwarden.rule=Host(`bw.${BASE_URL}`) || Host(`bitwarden.box`)"
+      - "traefik.http.routers.bitwarden.entrypoints=websecure"
+      - "traefik.http.routers.bitwarden.tls=true"
+      - "traefik.http.routers.bitwarden.tls.certresolver=leresolver"
+
+volumes:
+  vaultwarden-data:
+    external: true
+    name: vaultwarden-data
+
+networks:
+  infra-network:
+    external: true
+    name: my-bridge
+

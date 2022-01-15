@@ -25,6 +25,7 @@
   loop:
     - gitea-data
     - portainer-data
+    - vaultwarden-data
     - traefik-logs
     - traefik-certs
 
@@ -33,4 +34,6 @@
     name: my-bridge
 
 - import_tasks: ./tasks/containers/bind9.yml
+#- import_tasks: ./tasks/containers/bitwarden.yml
 - import_tasks: ./tasks/containers/gitea.yml
+#- import_tasks: ./tasks/containers/traefik.yml

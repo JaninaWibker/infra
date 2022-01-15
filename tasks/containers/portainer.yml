@@ -1,0 +1,5 @@
+- name: Ensure portainer is running
+  community.docker.docker_compose:
+    project_src: "/home/{{ username }}/docker-images/portainer"
+    build: no
+
