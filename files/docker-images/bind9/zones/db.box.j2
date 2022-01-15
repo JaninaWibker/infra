@@ -1,0 +1,31 @@
+$ORIGIN box.
+$TTL 86400
+@	SOA	ns1.box.	box. (
+		2001062501 ; serial
+		21600      ; refresh after 6 hours
+		3600       ; retry after 1 hour
+		604800     ; expire after 1 week
+		86400 )    ; minimum TTL of 1 day
+;
+;
+	NS	ns1.box.
+ns1	A	{{ ansible_host }}
+
+root	A	{{ ansible_host }}
+fritz	A	192.168.178.1
+speedport	A	192.168.178.2
+
+bitwarden	CNAME	root.box.
+docs	CNAME	root.box.
+git	CNAME	root.box.
+minio	CNAME	root.box.
+notes	CNAME	root.box.
+notes-api	CNAME	root.box.
+web	CNAME	root.box.
+samba	CNAME	root.box.
+portainer	CNAME	root.box.
+plex	CNAME	root.box.
+cloud	CNAME	root.box.
+photos	CNAME	root.box.
+;
+;

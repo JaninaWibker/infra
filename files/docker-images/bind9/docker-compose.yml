@@ -1,0 +1,29 @@
+version: '3.5'
+
+services:
+  bind9:
+    image: ubuntu/bind9
+    container_name: bind9
+    restart: unless-stopped
+    user: root
+    #network_mode: host
+    #networks:
+    #  - bind9-network
+    environment:
+      - TZ=Europe/Amsterdam
+    ports:
+      - "53:53/udp"
+    volumes:
+      - ./named.conf:/etc/bind/named.conf
+      - ./named.conf.options:/etc/bind/named.conf.options
+      - ./named.conf.local:/etc/bind/named.conf.local
+      - ./zones:/var/lib/bind
+      - bind-cache:/var/cache/bind
+
+volumes:
+  bind-cache:
+
+#networks:
+#  bind9-network:
+#    external: true
+#    name: my-bridge

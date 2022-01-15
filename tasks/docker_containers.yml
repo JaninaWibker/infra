@@ -8,6 +8,9 @@
     archive: no
     recursive: yes
     checksum: yes
+    rsync_opts:
+      - "--exclude=bind9/zones/db.box.j2"          # this uses a template (containers/bind9.yml)
+      - "--exclude=bind9/named.conf.options.j2"    # this uses a template (containers/bind9.yml)
 - name: Ensure .env file for docker-compose is generated
   template:
     src: "./files/dotenv.j2"
@@ -20,3 +23,5 @@
 - name: Ensure docker network is created
   docker_network:
     name: my-bridge
+
+- import_tasks: ./tasks/containers/bind9.yml

@@ -1,0 +1,14 @@
+- name: Ensure db.box zone file is generated
+  template:
+    src: "./files/docker-images/bind9/zones/db.box.j2"
+    dest: "/home/{{ username }}/docker-images/bind9/zones/db.box"
+
+- name: Ensure named.conf.options file is generated
+  template:
+    src: "./files/docker-images/bind9/named.conf.options.j2"
+    dest: "/home/{{ username }}/docker-images/bind9/named.conf.options"
+
+#- name: Ensure bind9 is running
+#  community.docker.docker_compose:
+#    project_src: "/home/{{ username }}/docker-images/bind9"
+#    build: no
