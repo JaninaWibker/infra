@@ -1,0 +1,92 @@
+version: '3.5'
+
+services:
+  photoprism:
+    image: photoprism/photoprism:latest
+    container_name: photoprism
+    depends_on:
+      - mariadb
+    restart: unless-stopped
+    security_opt:
+      - seccomp:unconfined
+      - apparmor:unconfined
+    networks:
+      - infra-network
+      - photoprism-network
+    ports: [] # uses port 2342 by default
+    working_dir: /photoprism
+    environment:
+      PHOTOPRISM_ADMIN_PASSWORD: "${PHOTOPRISM_ADMIN_PASSWORD}"
+      PHOTOPRISM_SITE_URL: "https://photos.${BASE_URL}"
+      PHOTOPRISM_ORIGINALS_LIMIT: 500
+      PHOTOPRISM_HTTP_COMPRESSION: "gzip"
+      PHOTOPRISM_DEBUG: "false" # might want this on at first
+      PHOTOPRISM_PUBLIC: "false"
+      PHOTOPRISM_EXPERIMENTAL: "false"
+      PHOTOPRISM_CHOWN: "false"
+      PHOTOPRISM_DISABLE_WEBDAV: "false"
+      PHOTOPRISM_DISABLE_SETTINGS: "false"
+      PHOTOPRISM_DISABLE_TENSORFLOW: "false"
+      PHOTOPRISM_DISABLE_FACES: "false"
+      PHOTOPRISM_DISABLE_CLASSIFICATION: "false"
+      PHOTOPRISM_DETECT_NSFW: "true" # would be interesting to see how well this works
+      PHOTOPRISM_UPLOAD_NSFW: "true"
+      PHOTOPRISM_DATABASE_DRIVER: "mysql"
+      PHOTOPRISM_DATABASE_SERVER: "photoprism-mariadb:3306"
+      PHOTOPRISM_DATABASE_NAME: "photoprism"
+      PHOTOPRISM_DATABASE_USER: "photoprism"
+      PHOTOPRISM_DATABASE_PASSWORD: "${PHOTOPRISM_DB_PASSWORD}"
+      PHOTOPRISM_SITE_TITLE: "PhotoPrism"
+      PHOTOPRISM_SITE_CAPTION: ""
+      PHOTOPRISM_SITE_DESCRIPTION: ""
+      PHOTOPRISM_SITE_AUTHOR: ""
+      HOME: "/photoprism"
+    volumes:
+      - "photoprism-images:/photoprism/originals"
+      - "photoprism-imports:/photoprism/imports"
+      - "photoprism-data:/photoprism/storage"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.photoprism.loadbalancer.server.port=2342"
+      - "traefik.http.routers.photoprism.rule=Host(`photos.${BASE_URL}`) || Host(`photos.box`)"
+      - "traefik.http.routers.photoprism.entrypoints=websecure"
+      - "traefik.http.routers.photoprism.tls=true"
+      - "traefik.http.routers.photoprism.tls.certresolver=leresolver"
+
+  mariadb:
+    image: mariadb:10.6
+    container_name: photoprism-mariadb
+    restart: unless-stopped
+    networks:
+      - photoprism-network
+    security_opt:
+      - seccomp:unconfined
+      - apparmor:unconfined
+    command: mysqld --innodb-buffer-pool-size=128M --transaction-isolation=READ-COMMITTED --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max-connections=512 --innodb-rollback-on-timeout=OFF --innodb-lock-wait-timeout=120
+    volumes:
+      - "photoprism-db-data:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: "${PHOTOPRISM_DB_PASSWORD}"
+      MYSQL_DATABASE: "photoprism"
+      MYSQL_USER: "photoprism"
+      MYSQL_PASSWORD: "${PHOTOPRISM_DB_PASSWORD}"
+
+volumes:
+  photoprism-images:
+    external: true
+    name: photoprism-images
+  photoprism-imports:
+    external: true
+    name: photoprism-imports
+  photoprism-data:
+    external: true
+    name: photoprism-data
+  photoprism-db-data:
+    external: true
+    name: photoprism-db-data
+
+networks:
+  photoprism-network:
+  infra-network:
+    external: true
+    name: my-bridge

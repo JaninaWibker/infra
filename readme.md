@@ -10,18 +10,18 @@ The main components used are:
 ## What is included?
 
 The following services will be run:
-- personal identity provider (auth)
+- personal identity provider (auth) (WIP)
 - local dns server (bind9)
 - bitwarden (vaultwarden)
 - git server (gitea)
-- nextcloud
+- nextcloud (WIP)
 - plex
 - portainer
-- network shares (samba)
+- network shares (samba) (WIP)
 - school-docs
 - traefik
 - personal website
-
+- web-based photo gallery (photoprism)
 
 ## Getting started
 
@@ -51,7 +51,7 @@ To run this the following has to be done / configured:
 This is the structure of my secret.yml file:
 
 ```yaml
-gitea:
+gitea: # gitea generates these values itself when they can't be found in the config file; start gitea without them and extract them afterwards
   LFS_JWT_SECRET: "..."
   INTERNAL_TOKEN: "..."
   SECRET_KEY: "..."

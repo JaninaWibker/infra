@@ -30,6 +30,10 @@
     - plex-shows
     - plex-config
     - plex-transcode
+    - photoprism-images
+    - photoprism-imports
+    - photoprism-data
+    - photoprism-db-data
     - portainer-data
     - vaultwarden-data
     - traefik-logs
@@ -42,7 +46,9 @@
 - import_tasks: ./tasks/containers/bind9.yml
 #- import_tasks: ./tasks/containers/bitwarden.yml
 - import_tasks: ./tasks/containers/gitea.yml
+- import_takss: ./tasks/containers/photoprism.yml
 - import_tasks: ./tasks/containers/plex.yml
+- import_tasks: ./tasks/containers/portainer.yml
 - import_tasks: ./tasks/containers/school-docs.yml
-#- import_tasks: ./tasks/containers/traefik.yml
+- import_tasks: ./tasks/containers/traefik.yml
 - import_tasks: ./tasks/containers/website.yml
