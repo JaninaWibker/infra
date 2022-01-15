@@ -1,0 +1,32 @@
+providers:
+  providersThrottleDuration: 10s
+  docker:
+    exposedByDefault: false
+
+api:
+  dashboard: false
+  insecure: true
+
+entryPoints:
+#  dashboard:
+#    address: ":8080"
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+          permanent: true
+  websecure:
+    address: ":443"
+
+certificatesResolvers:
+  leresolver:
+    acme:
+      email: jannik@jannikwibker.dev
+      storage: /letsencrypt/acme.json
+      caserver: https://acme-v02.api.letsencrypt.org/directory
+      #caserver: https://acme-staging-v02.api.letsencrypt.org/directory
+      httpChallenge:
+        entryPoint: web

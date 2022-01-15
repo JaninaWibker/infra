@@ -19,6 +19,9 @@
 - name: Ensure docker volumes are created
   docker_volume:
     name: "{{ item }}"
+  loop:
+    - traefik-logs
+    - traefik-certs
 
 - name: Ensure docker network is created
   docker_network:

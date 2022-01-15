@@ -1,0 +1,4 @@
+#- name: Ensure traefik is running
+#  community.docker.docker_compose:
+#    project_src: "/home/{{ username }}/docker-images/traefik"
+#    build: no
