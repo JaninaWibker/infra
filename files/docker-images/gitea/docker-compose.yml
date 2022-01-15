@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+  server:
+    image: gitea/gitea:1.15.8
+    container_name: gitea
+    environment:
+      - USER=docker-user
+      - USER_UID=1001
+      - USER_GID=1001
+    restart: always
+    networks:
+      - infra-network
+    volumes:
+      - gitea-data:/data
+      - ./public:/data/gitea/public
+      - ./app.ini:/data/gitea/conf/app.ini
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports: [] # 3000 is the default internal port of gitea, 22 for ssh which isn't being used
+      # - "3000:3000"
+      # - "222:22"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.git.loadbalancer.server.port=3000"
+      - "traefik.http.routers.git.rule=Host(`git.${BASE_URL}`)" # || Host(`git.box`)"
+      - "traefik.http.routers.git.entrypoints=websecure"
+      - "traefik.http.routers.git.tls=true"
+      - "traefik.http.routers.git.tls.certresolver=leresolver"
+
+volumes:
+  gitea-data:
+    external: true
+    name: gitea-data
+
+networks:
+  infra-network:
+    external: true
+    name: my-bridge
+

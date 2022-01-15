@@ -51,7 +51,10 @@ To run this the following has to be done / configured:
 This is the structure of my secret.yml file:
 
 ```yaml
-idk: 123
+gitea:
+  LFS_JWT_SECRET: "..."
+  INTERNAL_TOKEN: "..."
+  SECRET_KEY: "..."
 ```
 
 
