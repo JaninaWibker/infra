@@ -1,0 +1,23 @@
+version: '3.5'
+
+services:
+  docs:
+    image: docs
+    container_name: docs
+    build: repo
+    restart: unless-stopped
+    networks:
+      - infra-network
+    ports: [] # runs on port 80 by default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.docs.loadbalancer.server.port=80"
+      - "traefik.http.routers.docs.rule=Host(`docs.${BASE_URL}`)" # || Host(`docs.box`)"
+      - "traefik.http.routers.docs.entrypoints=websecure"
+      - "traefik.http.routers.docs.tls=true"
+      - "traefik.http.routers.docs.tls.certresolver=leresolver"
+
+networks:
+  infra-network:
+    external: true
+    name: my-bridge

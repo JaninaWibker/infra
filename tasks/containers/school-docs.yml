@@ -1,0 +1,11 @@
+- name: Ensure school-docs repo is up to date
+  git:
+    repo: "https://git.jannikwibker.dev/jannik/school-docs"
+    dest: "/home/{{ username }}/docker-images/school-docs/repo"
+    single_branch: yes
+    version: master
+
+#- name: Ensure school-docs is running
+#  community.docker.docker_compose:
+#    project_src: "/home/{{ username }}/docker-images/school-docs"
+#    build: yes
