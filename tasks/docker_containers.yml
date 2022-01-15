@@ -1,0 +1,22 @@
+- name: Ensure docker-image files are present
+  become: no
+  ansible.posix.synchronize:
+    src: "./files/docker-images"
+    dest: "/home/{{ username }}/"
+    private_key: "{{ ansible_ssh_private_key_file }}"
+    use_ssh_args: yes
+    archive: no
+    recursive: yes
+    checksum: yes
+- name: Ensure .env file for docker-compose is generated
+  template:
+    src: "./files/dotenv.j2"
+    dest: "/home/{{ username }}/docker-images/.env"
+
+- name: Ensure docker volumes are created
+  docker_volume:
+    name: "{{ item }}"
+
+- name: Ensure docker network is created
+  docker_network:
+    name: my-bridge
