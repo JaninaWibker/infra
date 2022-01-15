@@ -4,3 +4,4 @@
 *.conf linguist-detectable
 *.conf.local linguist-detectable
 *.ini linguist-detectable
+theme-*.css linguist-vendored
