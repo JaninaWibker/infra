@@ -1,0 +1,30 @@
+version: '3.5'
+
+services:
+  portainer:
+    image: cr.portainer.io/portainer/portainer-ce:2.9.3
+    container_name: portainer
+    restart: always
+    networks:
+      - infra-network
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      -  portainer-data:/data
+    ports: [] # uses 9000 for http and 9443 for https by default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.${BASE_URL}`)" # || Host(`portainer.box`)"
+      - "traefik.http.routers.portainer.entrypoints=websecure"
+      - "traefik.http.routers.portainer.tls=true"
+      - "traefik.http.routers.portainer.tls.certresolver=leresolver"
+
+volumes:
+  portainer-data:
+    external: true
+    name: portainer-data
+
+networks:
+  infra-network:
+    external: true
+    name: my-bridge

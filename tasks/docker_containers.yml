@@ -9,6 +9,7 @@
     recursive: yes
     checksum: yes
     rsync_opts:
+      - "--exclude=.env"                           # this uses a template (this file)
       - "--exclude=bind9/zones/db.box.j2"          # this uses a template (containers/bind9.yml)
       - "--exclude=bind9/named.conf.options.j2"    # this uses a template (containers/bind9.yml)
 - name: Ensure .env file for docker-compose is generated
@@ -20,6 +21,7 @@
   docker_volume:
     name: "{{ item }}"
   loop:
+    - portainer-data
     - traefik-logs
     - traefik-certs
 
