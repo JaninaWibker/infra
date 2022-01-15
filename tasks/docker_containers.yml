@@ -24,6 +24,10 @@
     name: "{{ item }}"
   loop:
     - gitea-data
+    - plex-movies
+    - plex-shows
+    - plex-config
+    - plex-transcode
     - portainer-data
     - vaultwarden-data
     - traefik-logs
@@ -36,4 +40,5 @@
 - import_tasks: ./tasks/containers/bind9.yml
 #- import_tasks: ./tasks/containers/bitwarden.yml
 - import_tasks: ./tasks/containers/gitea.yml
+#- import_tasks: ./tasks/containers/plex.yml
 #- import_tasks: ./tasks/containers/traefik.yml

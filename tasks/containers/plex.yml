@@ -1,0 +1,4 @@
+#- name: Ensure plex is running
+#  community.docker.docker_compose:
+#    project_src: "/home/{{ username }}/docker-images/plex"
+#    build: no

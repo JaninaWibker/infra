@@ -1,0 +1,54 @@
+version: '3.5'
+
+services:
+  plex:
+    image: lscr.io/linuxserver/plex
+    container_name: plex
+    restart: unless-stopped
+    environment:
+      - PUID=1001
+      - PGID=1001
+      - VERSION=docker
+    networks:
+      - infra-network
+    ports: # port 32400 is used for the web UI
+      - "1900:1900/udp"
+      - "3005:3005"
+      - "5353:5353/udp"
+      - "8324:8324"
+      - "32410:32410/udp"
+      - "32412:32412/udp"
+      - "32413:32413/udp"
+      - "32414:32414/udp"
+      - "32469:32469"
+    volumes:
+      - plex-config:/config
+      - plex-shows:/data/tvshows
+      - plex-movies:/data/movies
+      - plex-transcode:/transcode
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.plex.loadbalancer.server.port=32400"
+      - "traefik.http.routers.plex.rule=Host(`plex.${BASE_URL}`)" # || Host(`plex.box`)"
+      - "traefik.http.routers.plex.entrypoints=websecure"
+      - "traefik.http.routers.plex.tls=true"
+      - "traefik.http.routers.plex.tls.certresolver=leresolver"
+
+networks:
+  infra-network:
+    external: true
+    name: my-bridge
+
+volumes:
+  plex-config:
+    external: true
+    name: plex-config
+  plex-shows:
+    external: true
+    name: plex-shows
+  plex-movies:
+    external: true
+    name: plex-movies
+  plex-transcode:
+    external: true
+    name: plex-transcode
