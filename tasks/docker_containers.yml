@@ -44,6 +44,7 @@
     - vaultwarden-data
     - traefik-logs
     - traefik-certs
+    - kuma-data
 
 - name: Ensure docker network is created
   docker_network:
@@ -52,6 +53,7 @@
 - import_tasks: ./tasks/containers/bind9.yml
 #- import_tasks: ./tasks/containers/bitwarden.yml
 - import_tasks: ./tasks/containers/gitea.yml
+- import_tasks: ./tasks/containers/kuma.yml
 - import_tasks: ./tasks/containers/photoprism.yml
 - import_tasks: ./tasks/containers/plex.yml
 - import_tasks: ./tasks/containers/portainer.yml

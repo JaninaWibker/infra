@@ -1,0 +1,28 @@
+version: '3.3'
+
+services:
+  kuma:
+    image: "louislam/uptime-kuma"
+    container_name: kuma
+    restart: unless-stopped
+    networks:
+      - infra-network
+    volumes:
+      - "kuma-data:/app/data"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.kuma.loadbalancer.server.port=3001"
+      - "traefik.http.routers.kuma.rule=Host(`status.${BASE_URL}`)"
+      - "traefik.http.routers.kuma.entrypoints=websecure"
+      - "traefik.http.routers.kuma.tls=true"
+      - "traefik.http.routers.kuma.tls.certresolver=leresolver"
+
+networks:
+  infra-network:
+    external: true
+    name: my-bridge
+
+volumes:
+  kuma-data:
+    external: true
+    name: uptime-kuma-data
