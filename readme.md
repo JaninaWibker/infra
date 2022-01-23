@@ -51,6 +51,31 @@ To run this the following has to be done / configured:
 This is the structure of my secret.yml file:
 
 ```yaml
+
+samba:
+  users: # these users will be created for the samba server
+    - name: "jannik"
+      group: "jannik"
+      uid: 1000
+      gid: 1000
+      password: "..."
+    - name: "some_other_user"
+      group: "some_other_user"
+      uid: 1002
+      gid: 1002
+      password: "..."
+  user_aliases: # additionally these will also be created and can be used if you want to have multiple usernames for essentially the same thing (can be left empty using `user_aliases: []`)
+    - name: "alias_of_jannik"
+      group: jannik
+      uid: 1001 # user ids must still be unique
+      gid: 1000
+      alias: "jannik"
+    - name: "alias_of_some_other_user"
+      group: jannik
+      uid: 1003
+      gid: 1002
+      alias: "some_other_user"
+
 photoprism:
   ADMIN_PASSWORD: "..." # this only sets the initial password, updating later on can be done using the web interface
   DB_PASSWORD: "..."

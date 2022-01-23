@@ -13,6 +13,9 @@
       - "--exclude=gitea/app.ini.j2"               # this uses a template (containers/gitea.yml)
       - "--exclude=bind9/zones/db.box.j2"          # this uses a template (containers/bind9.yml)
       - "--exclude=bind9/named.conf.options.j2"    # this uses a template (containers/bind9.yml)
+      - "--exclude=samba/docker-compose.yml.j2"    # this uses a template (containers/samba.yml)
+      - "--exclude=samba/config.yml.j2"            # this uses a template (containers/samba.yml)
+      - "--exclude=samba/sensitive/*_password.txt" # this uses lineinfile (containers/samba.yml)
       - "--exclude=website/repo"                   # this uses git role   (containers/website.yml)
       - "--exclude=school-docs/repo"               # this uses git role   (containers/school-docs.yml)
 
@@ -35,6 +38,9 @@
     - photoprism-data
     - photoprism-db-data
     - portainer-data
+    - samba-drop
+    - samba-public
+    - samba-studium
     - vaultwarden-data
     - traefik-logs
     - traefik-certs
@@ -46,9 +52,10 @@
 - import_tasks: ./tasks/containers/bind9.yml
 #- import_tasks: ./tasks/containers/bitwarden.yml
 - import_tasks: ./tasks/containers/gitea.yml
-- import_takss: ./tasks/containers/photoprism.yml
+- import_tasks: ./tasks/containers/photoprism.yml
 - import_tasks: ./tasks/containers/plex.yml
 - import_tasks: ./tasks/containers/portainer.yml
+- import_tasks: ./tasks/containers/samba.yml
 - import_tasks: ./tasks/containers/school-docs.yml
 - import_tasks: ./tasks/containers/traefik.yml
 - import_tasks: ./tasks/containers/website.yml
