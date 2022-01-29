@@ -1,0 +1,18 @@
+options:
+  use: web
+  web: "https://ifconfig.me/ip"
+  cache: true
+  verbose: false
+
+{% for zone in ddupdate.zones %}
+{{ zone.ZONE_NAME }}:
+  protocol: cloudflare
+  server: api.cloudflare.com/client/v4
+  ssl: true
+  login:    {{ zone.ZONE_AUTH_USER }}
+  password: {{ zone.ZONE_AUTH_KEY }}
+  zone:     {{ zone.ZONE_NAME }}
+  zone_id:  {{ zone.ZONE_ID }}
+{% endfor %}
+
+

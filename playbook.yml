@@ -7,3 +7,4 @@
   tasks:
     - import_tasks: tasks/essential.yml
     - import_tasks: tasks/docker_containers.yml
+    - import_tasks: tasks/dd-update.yml

@@ -17,11 +17,12 @@ The following services will be run:
 - nextcloud (WIP)
 - plex
 - portainer
-- network shares (samba) (WIP)
+- network shares (samba)
 - school-docs
 - traefik
 - personal website
 - web-based photo gallery (photoprism)
+- auto updater for DNS A records (works only with cloudflare)
 
 ## Getting started
 
@@ -66,7 +67,7 @@ samba:
       password: "..."
   user_aliases: # additionally these will also be created and can be used if you want to have multiple usernames for essentially the same thing (can be left empty using `user_aliases: []`)
     - name: "alias_of_jannik"
-      group: jannik
+      group: "some_other_user"
       uid: 1001 # user ids must still be unique
       gid: 1000
       alias: "jannik"
@@ -84,6 +85,13 @@ gitea: # gitea generates these values itself when they can't be found in the con
   LFS_JWT_SECRET: "..."
   INTERNAL_TOKEN: "..."
   SECRET_KEY: "..."
+
+ddupdate:
+  zones:
+    - ZONE_NAME: "example.com"
+    - ZONE_ID: "<cloudflare zone id>"
+    - ZONE_AUTH_USER: "<cloudflare username/email>"
+    - ZONE_AUTH_KEY: "<cloudflare api key>"
 ```
 
 
