@@ -72,6 +72,15 @@ share:
     guestok: no
     browsable: yes
     veto: no
+  - name: audiobooks
+    comment: Audiobooks
+    path: /samba/audiobooks
+    adminusers: {{ all_users() }}
+    validusers: {{ all_users() }}
+    readonly: no
+    guestok: no
+    browsable: yes
+    veto: no
   - name: photos
     comment: Photos
     path: /samba/photos

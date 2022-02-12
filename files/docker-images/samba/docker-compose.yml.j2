@@ -16,6 +16,7 @@ services:
       - "studium:/samba/studium"
       - "shows:/samba/shows"
       - "movies:/samba/movies"
+      - "audiobooks:/samba/audiobooks"
       - "photos:/samba/photos"
       {% for user in samba.users -%}
       - "{{ user.name }}:/samba/{{ user.name }}"
@@ -48,6 +49,9 @@ volumes:
   movies:
     external: true
     name: plex-movies
+  audiobooks:
+    external: true
+    name: plex-audiobooks
   photos:
     external: true
     name: photoprism-images

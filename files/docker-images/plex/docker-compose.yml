@@ -25,6 +25,7 @@ services:
       - plex-config:/config
       - plex-shows:/data/tvshows
       - plex-movies:/data/movies
+      - plex-audiobooks:/data/audiobooks
       - plex-transcode:/transcode
     labels:
       - "traefik.enable=true"
@@ -49,6 +50,9 @@ volumes:
   plex-movies:
     external: true
     name: plex-movies
+  plex-audiobooks:
+    external: true
+    name: plex-audiobooks
   plex-transcode:
     external: true
     name: plex-transcode

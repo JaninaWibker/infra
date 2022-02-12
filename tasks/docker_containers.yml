@@ -31,6 +31,7 @@
     - gitea-data
     - plex-movies
     - plex-shows
+    - plex-audiobooks
     - plex-config
     - plex-transcode
     - photoprism-images
@@ -38,10 +39,15 @@
     - photoprism-data
     - photoprism-db-data
     - portainer-data
+    - seafile-data
+    - seafile-db-data
     - samba-drop
     - samba-public
     - samba-studium
+    - nextcloud-config
     - vaultwarden-data
+    - minio-certs
+    - minio-data
     - traefik-logs
     - traefik-certs
     - kuma-data
@@ -54,10 +60,12 @@
 #- import_tasks: ./tasks/containers/bitwarden.yml
 - import_tasks: ./tasks/containers/gitea.yml
 - import_tasks: ./tasks/containers/kuma.yml
+#- import_tasks: ./tasks/containers/nextcloud.yml
 - import_tasks: ./tasks/containers/photoprism.yml
 - import_tasks: ./tasks/containers/plex.yml
 - import_tasks: ./tasks/containers/portainer.yml
 - import_tasks: ./tasks/containers/samba.yml
+- import_tasks: ./tasks/containers/seafile.yml
 - import_tasks: ./tasks/containers/school-docs.yml
 - import_tasks: ./tasks/containers/traefik.yml
 - import_tasks: ./tasks/containers/website.yml
