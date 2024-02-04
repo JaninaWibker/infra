@@ -1,2 +1,5 @@
-[home]
-eggspresso ansible_host=192.168.178.82 ansible_user=docker-user ansible_connection=ssh ansible_ssh_private_key_file=/home/jannik/.ssh/eggspresso ansible_python_interpreter=/usr/bin/python3
+# [home]
+# eggspresso ansible_host=192.168.178.82 ansible_user=docker-user ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/eggspresso ansible_python_interpreter=/usr/bin/python3
+
+[netcup]
+netcup ansible_host=v2202401157827255033.supersrv.de ansible_user=docker-user ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/netcup-vps-ansible.ed25519 ansible_python_interpreter=/usr/bin/python3

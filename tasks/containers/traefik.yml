@@ -1,4 +1,5 @@
-#- name: Ensure traefik is running
-#  community.docker.docker_compose:
-#    project_src: "/home/{{ username }}/docker-images/traefik"
-#    build: no
+- name: Ensure traefik is running
+  community.docker.docker_compose:
+    project_src: "/home/{{ username }}/docker-images/traefik"
+    build: no
+    env_file: "/home/{{ username }}/docker-images/.env"

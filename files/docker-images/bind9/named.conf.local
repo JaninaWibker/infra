@@ -1,4 +1,0 @@
-zone "box" {
-    type master;
-    file "/var/lib/bind/db.box";
-};

@@ -23,7 +23,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.git.loadbalancer.server.port=3000"
-      - "traefik.http.routers.git.rule=Host(`git.${BASE_URL}`)" # || Host(`git.box`)"
+      - "traefik.http.routers.git.rule=Host(`git.${BASE_URL}`)"
       - "traefik.http.routers.git.entrypoints=websecure"
       - "traefik.http.routers.git.tls=true"
       - "traefik.http.routers.git.tls.certresolver=leresolver"

@@ -1,0 +1,12 @@
+- name: Ensure website-janina repo is up to date
+  git:
+    repo: https://{{ github.USERNAME | urlencode }}:{{ github.PASSWORD | urlencode }}@github.com/JannikWibker/website-janina
+    dest: "/home/{{ username }}/docker-images/website-janina/repo"
+    single_branch: yes
+    version: main
+
+- name: Ensure website-janina is running
+  community.docker.docker_compose:
+    project_src: "/home/{{ username }}/docker-images/website-janina"
+    build: yes
+    env_file: "/home/{{ username }}/docker-images/.env"

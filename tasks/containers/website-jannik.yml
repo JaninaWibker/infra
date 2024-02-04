@@ -1,0 +1,12 @@
+- name: Ensure website-jannik repo is up to date
+  git:
+    repo: https://github.com/JannikWibker/website-v2
+    dest: "/home/{{ username }}/docker-images/website-jannik/repo"
+    single_branch: yes
+    version: main
+
+- name: Ensure website-jannik is running
+  community.docker.docker_compose:
+    project_src: "/home/{{ username }}/docker-images/website-jannik"
+    build: yes
+    env_file: "/home/{{ username }}/docker-images/.env"

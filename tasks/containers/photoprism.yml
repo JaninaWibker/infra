@@ -1,4 +1,0 @@
-#- name: Ensure photoprism is running
-#  community.docker.docker_compose:
-#    project_src: "/home/{{ username }}/docker-images/photoprism"
-#    build: no

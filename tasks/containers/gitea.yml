@@ -7,4 +7,5 @@
 #  community.docker.docker_compose:
 #    project_src: "/home/{{ username }}/docker-images/gitea"
 #    build: no
+#    env_file: "/home/{{ username }}/docker-images/.env"
 

@@ -1,4 +1,4 @@
-version: '3.5'
+version: '3.9'
 
 services:
   docs:
@@ -12,7 +12,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.docs.loadbalancer.server.port=80"
-      - "traefik.http.routers.docs.rule=Host(`docs.${BASE_URL}`)" # || Host(`docs.box`)"
+      - "traefik.http.routers.docs.rule=Host(`docs.${BASE_URL}`)"
       - "traefik.http.routers.docs.entrypoints=websecure"
       - "traefik.http.routers.docs.tls=true"
       - "traefik.http.routers.docs.tls.certresolver=leresolver"

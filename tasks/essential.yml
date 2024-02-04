@@ -30,6 +30,8 @@
     - lsb-release
     - python3-pip
     - python3-docker
+    - python3-compose
+    - rsync
 
 - name: Add an apt signing key for Docker
   apt_key:
@@ -93,32 +95,6 @@
     state: restarted
   when: sshd_config.changed
 
-- name: Ensure systemd-resolved is disabled and stopped
-  service:
-    name: systemd-resolved
-    state: stopped
-    enabled: no
-
-- stat:
-    path: "/etc/resolv.conf"
-  register: resolv_conf
-
-- name: Ensure old resolv.conf file is removed
-  file:
-    path: "/etc/resolv.conf"
-    state: absent
-  when: resolv_conf.stat.islnk is defined and resolv_conf.stat.islnk
-
-- name: Ensure new resolv.conf file is added
-  copy:
-    content: |
-      nameserver {{ primary_nameserver }}
-      nameserver {{ secondary_nameserver }}
-    dest: "/etc/resolv.conf"
-  vars:
-    primary_nameserver: "8.8.8.8"
-    secondary_nameserver: "8.8.4.4"
-
 - name: Ensure docker-data folder exists
   file:
     path: "/home/{{ username }}/docker-data"
@@ -127,8 +103,8 @@
 - name: Ensure docker-data folder is set correctly
   lineinfile:
     dest: /lib/systemd/system/docker.service
-    regexp: "ExecStart=/usr/bin/dockerd -H fd:// --containerd"
-    line: "ExecStart=/usr/bin/dockerd -H fd:// --data-root=/home/{{ username }}/docker-data --containerd"
+    regexp: "ExecStart=/usr/bin/dockerd -H fd://"
+    line: "ExecStart=/usr/bin/dockerd -H fd:// --data-root=/home/{{ username }}/docker-data"
   register: docker_service
 
 - name: Ensure docker daemon is restarted if needed
@@ -142,3 +118,4 @@
   community.general.python_requirements_info:
     dependencies:
       - "docker>5.0.3"
+      - "docker-compose>1.29.2"
