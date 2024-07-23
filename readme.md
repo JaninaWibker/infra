@@ -55,8 +55,8 @@ This is the structure of my secret.yml file:
 
 samba:
   users: # these users will be created for the samba server
-    - name: "jannik"
-      group: "jannik"
+    - name: "janina"
+      group: "janina"
       uid: 1000
       gid: 1000
       password: "..."
@@ -66,13 +66,13 @@ samba:
       gid: 1002
       password: "..."
   user_aliases: # additionally these will also be created and can be used if you want to have multiple usernames for essentially the same thing (can be left empty using `user_aliases: []`)
-    - name: "alias_of_jannik"
+    - name: "alias_of_janina"
       group: "some_other_user"
       uid: 1001 # user ids must still be unique
       gid: 1000
-      alias: "jannik"
+      alias: "janina"
     - name: "alias_of_some_other_user"
-      group: jannik
+      group: janina
       uid: 1003
       gid: 1002
       alias: "some_other_user"

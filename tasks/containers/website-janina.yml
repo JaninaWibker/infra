@@ -1,6 +1,6 @@
 - name: Ensure website-janina repo is up to date
   git:
-    repo: https://{{ github.USERNAME | urlencode }}:{{ github.PASSWORD | urlencode }}@github.com/JannikWibker/website-janina
+    repo: https://{{ github.USERNAME | urlencode }}:{{ github.PASSWORD | urlencode }}@github.com/JaninaWibker/website-janina
     dest: "/home/{{ username }}/docker-images/website-janina/repo"
     single_branch: yes
     version: main

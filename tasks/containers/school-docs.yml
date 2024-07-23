@@ -1,6 +1,6 @@
 - name: Ensure school-docs repo is up to date
   git:
-    repo: "https://github.com/JannikWibker/school-docs"
+    repo: "https://github.com/JaninaWibker/school-docs"
     dest: "/home/{{ username }}/docker-images/school-docs/repo"
     single_branch: yes
     version: main

@@ -1,6 +1,6 @@
 - name: Ensure website-jannik repo is up to date
   git:
-    repo: https://github.com/JannikWibker/website-v2
+    repo: https://github.com/JaninaWibker/website-v2
     dest: "/home/{{ username }}/docker-images/website-jannik/repo"
     single_branch: yes
     version: main
