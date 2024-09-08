@@ -30,6 +30,8 @@
     - lsb-release
     - python3-pip
     - python3-docker
+    - python3-compose
+    - rsync
 
 - name: Add an apt signing key for Docker
   apt_key:
@@ -52,29 +54,6 @@
     - docker-ce-cli
     - containerd.io
 
-# the docker-compose things are a bit ugly, but I haven't yet found a way to improve this
-
-- name: "Check docker-compose is not installed"
-  stat: path=/usr/local/bin/docker-compose
-  register: docker_compose_global
-
-- name: "Download docker-compose {{ docker_compose_version }}"
-  get_url:
-    url : https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-x86_64
-    dest: ~/docker-compose
-    mode: '+x'
-  vars:
-    docker_compose_version: "1.29.2"
-  when: not docker_compose_global.stat.exists
-
-- name: "Check docker-compose was downloaded"
-  stat: path=~/docker-compose
-  register: docker_compose
-
-- name: Move docker-compose to /usr/local/bin/docker-compose
-  command: mv ~/docker-compose /usr/local/bin/docker-compose
-  when: docker_compose.stat.exists
-
 - name: "Add {{ username }} to docker group"
   user:
     name: "{{ username }}"
@@ -93,32 +72,6 @@
     state: restarted
   when: sshd_config.changed
 
-- name: Ensure systemd-resolved is disabled and stopped
-  service:
-    name: systemd-resolved
-    state: stopped
-    enabled: no
-
-- stat:
-    path: "/etc/resolv.conf"
-  register: resolv_conf
-
-- name: Ensure old resolv.conf file is removed
-  file:
-    path: "/etc/resolv.conf"
-    state: absent
-  when: resolv_conf.stat.islnk is defined and resolv_conf.stat.islnk
-
-- name: Ensure new resolv.conf file is added
-  copy:
-    content: |
-      nameserver {{ primary_nameserver }}
-      nameserver {{ secondary_nameserver }}
-    dest: "/etc/resolv.conf"
-  vars:
-    primary_nameserver: "8.8.8.8"
-    secondary_nameserver: "8.8.4.4"
-
 - name: Ensure docker-data folder exists
   file:
     path: "/home/{{ username }}/docker-data"
@@ -127,8 +80,8 @@
 - name: Ensure docker-data folder is set correctly
   lineinfile:
     dest: /lib/systemd/system/docker.service
-    regexp: "ExecStart=/usr/bin/dockerd -H fd:// --containerd"
-    line: "ExecStart=/usr/bin/dockerd -H fd:// --data-root=/home/{{ username }}/docker-data --containerd"
+    regexp: "ExecStart=/usr/bin/dockerd -H fd://"
+    line: "ExecStart=/usr/bin/dockerd -H fd:// --data-root=/home/{{ username }}/docker-data"
   register: docker_service
 
 - name: Ensure docker daemon is restarted if needed
@@ -141,4 +94,5 @@
 - name: Ensure docker python SDK is installed
   community.general.python_requirements_info:
     dependencies:
-      - "docker>5.0.3"
+      - "docker>7.1.0"
+      - "docker-compose>1.29.2"

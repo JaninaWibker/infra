@@ -1,4 +1,5 @@
-#- name: Ensure bitwarden is running
-#  community.docker.docker_compose:
-#    project_src: "/home/{{ username }}/docker-images/bitwarden"
-#    build: no
+- name: Ensure bitwarden is running
+  community.docker.docker_compose_v2:
+    project_src: "/home/{{ username }}/docker-images/bitwarden"
+    env_files:
+      - "/home/{{ username }}/docker-images/.env"

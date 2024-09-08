@@ -11,11 +11,6 @@
     rsync_opts:
       - "--exclude=.env"                           # this uses a template (this file)
       - "--exclude=gitea/app.ini.j2"               # this uses a template (containers/gitea.yml)
-      - "--exclude=bind9/zones/db.box.j2"          # this uses a template (containers/bind9.yml)
-      - "--exclude=bind9/named.conf.options.j2"    # this uses a template (containers/bind9.yml)
-      - "--exclude=samba/docker-compose.yml.j2"    # this uses a template (containers/samba.yml)
-      - "--exclude=samba/config.yml.j2"            # this uses a template (containers/samba.yml)
-      - "--exclude=samba/sensitive/*_password.txt" # this uses lineinfile (containers/samba.yml)
       - "--exclude=website/repo"                   # this uses git role   (containers/website.yml)
       - "--exclude=school-docs/repo"               # this uses git role   (containers/school-docs.yml)
 
@@ -25,47 +20,24 @@
     dest: "/home/{{ username }}/docker-images/.env"
 
 - name: Ensure docker volumes are created
-  docker_volume:
-    name: "{{ item }}"
+  community.docker.docker_volume:
+    volume_name: "{{ item }}"
+    state: "present"
   loop:
     - gitea-data
-    - plex-movies
-    - plex-shows
-    - plex-audiobooks
-    - plex-config
-    - plex-transcode
-    - photoprism-images
-    - photoprism-imports
-    - photoprism-data
-    - photoprism-db-data
     - portainer-data
-    - seafile-data
-    - seafile-db-data
-    - samba-drop
-    - samba-public
-    - samba-studium
-    - nextcloud-config
     - vaultwarden-data
-    - minio-certs
-    - minio-data
     - traefik-logs
     - traefik-certs
     - kuma-data
 
 - name: Ensure docker network is created
-  docker_network:
+  community.docker.docker_network:
     name: my-bridge
 
-- import_tasks: ./tasks/containers/bind9.yml
-#- import_tasks: ./tasks/containers/bitwarden.yml
-- import_tasks: ./tasks/containers/gitea.yml
-- import_tasks: ./tasks/containers/kuma.yml
-#- import_tasks: ./tasks/containers/nextcloud.yml
-- import_tasks: ./tasks/containers/photoprism.yml
-- import_tasks: ./tasks/containers/plex.yml
+- import_tasks: ./tasks/containers/bitwarden.yml
 - import_tasks: ./tasks/containers/portainer.yml
-- import_tasks: ./tasks/containers/samba.yml
-- import_tasks: ./tasks/containers/seafile.yml
 - import_tasks: ./tasks/containers/school-docs.yml
 - import_tasks: ./tasks/containers/traefik.yml
-- import_tasks: ./tasks/containers/website.yml
+- import_tasks: ./tasks/containers/website-janina.yml
+- import_tasks: ./tasks/containers/website-jannik.yml

@@ -1,0 +1,22 @@
+services:
+  website-jannik:
+    image: website-jannik
+    container_name: website-jannik
+    build: repo
+    restart: unless-stopped
+    networks:
+      - infra-network
+    ports: [] # port 3000 is used by default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.website-jannik.loadbalancer.server.port=3000"
+      - "traefik.http.routers.website-jannik.rule=Host(`jannikwibker.dev`) || Host(`www.jannikwibker.dev`)"
+      - "traefik.http.routers.website-jannik.entrypoints=websecure"
+      - "traefik.http.routers.website-jannik.tls=true"
+      - "traefik.http.routers.website-jannik.tls.certresolver=leresolver"
+
+
+networks:
+  infra-network:
+    external: true
+    name: my-bridge

@@ -1,4 +1,5 @@
-#- name: Ensure kuma is running
-#  community.docker.docker_compose:
-#    project_src: "/home/{{ username }}/docker-images/kuma"
-#    build: no
+- name: Ensure kuma is running
+  community.docker.docker_compose_v2:
+    project_src: "/home/{{ username }}/docker-images/kuma"
+    env_files:
+      - "/home/{{ username }}/docker-images/.env"

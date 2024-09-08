@@ -1,6 +1,6 @@
 - name: Ensure dd-update is installed
   git:
-    repo: "https://github.com/JannikWibker/dd-update"
+    repo: "https://github.com/JaninaWibker/dd-update"
     dest: "/home/{{ username }}/dd-update"
     single_branch: yes
     version: master

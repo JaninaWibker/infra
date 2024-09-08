@@ -1,5 +1,5 @@
 username: "docker-user"
-base_url: "jannikwibker.dev"
+base_url: "janina.lol"
 dns_forwarders:
   primary: "8.8.8.8"
   secondary: "8.8.4.4"
