@@ -11,17 +11,12 @@ The main components used are:
 
 The following services will be run:
 - personal identity provider (auth) (WIP)
-- local dns server (bind9)
 - bitwarden (vaultwarden)
 - git server (gitea)
-- nextcloud (WIP)
-- plex
 - portainer
-- network shares (samba)
 - school-docs
 - traefik
-- personal website
-- web-based photo gallery (photoprism)
+- personal websites
 - auto updater for DNS A records (works only with cloudflare)
 
 ## Getting started
@@ -44,6 +39,12 @@ To run this the following has to be done / configured:
 - Modify `group_vars/all/vars.yml` as much as you like
 - Run `ansible-playbook playbook.yml -K --ask-vault-pass`
 
+## vars.yml
+
+```yaml
+username: "docker-user"
+base_url: "example.com" # used in traefik labels, allows easily changing the domain
+```
 
 ## ansible-vault
 
@@ -52,39 +53,14 @@ To run this the following has to be done / configured:
 This is the structure of my secret.yml file:
 
 ```yaml
-
-samba:
-  users: # these users will be created for the samba server
-    - name: "janina"
-      group: "janina"
-      uid: 1000
-      gid: 1000
-      password: "..."
-    - name: "some_other_user"
-      group: "some_other_user"
-      uid: 1002
-      gid: 1002
-      password: "..."
-  user_aliases: # additionally these will also be created and can be used if you want to have multiple usernames for essentially the same thing (can be left empty using `user_aliases: []`)
-    - name: "alias_of_janina"
-      group: "some_other_user"
-      uid: 1001 # user ids must still be unique
-      gid: 1000
-      alias: "janina"
-    - name: "alias_of_some_other_user"
-      group: janina
-      uid: 1003
-      gid: 1002
-      alias: "some_other_user"
-
-photoprism:
-  ADMIN_PASSWORD: "..." # this only sets the initial password, updating later on can be done using the web interface
-  DB_PASSWORD: "..."
-
 gitea: # gitea generates these values itself when they can't be found in the config file; start gitea without them and extract them afterwards
   LFS_JWT_SECRET: "..."
   INTERNAL_TOKEN: "..."
   SECRET_KEY: "..."
+
+github: # used for cloning private repositories
+  USERNAME: "..."
+  PASSWORD: "github_pat_..."
 
 ddupdate:
   zones:
@@ -93,8 +69,3 @@ ddupdate:
     - ZONE_AUTH_USER: "<cloudflare username/email>"
     - ZONE_AUTH_KEY: "<cloudflare api key>"
 ```
-
-
-## Comments about services
-
-TODO: add some kind of description about services and how they are deployed
