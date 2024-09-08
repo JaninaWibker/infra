@@ -6,7 +6,7 @@
     version: main
 
 - name: Ensure website-janina is running
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "/home/{{ username }}/docker-images/website-janina"
-    build: yes
-    env_file: "/home/{{ username }}/docker-images/.env"
+    env_files:
+      - "/home/{{ username }}/docker-images/.env"
