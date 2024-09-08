@@ -54,29 +54,6 @@
     - docker-ce-cli
     - containerd.io
 
-# the docker-compose things are a bit ugly, but I haven't yet found a way to improve this
-
-- name: "Check docker-compose is not installed"
-  stat: path=/usr/local/bin/docker-compose
-  register: docker_compose_global
-
-- name: "Download docker-compose {{ docker_compose_version }}"
-  get_url:
-    url : https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-x86_64
-    dest: ~/docker-compose
-    mode: '+x'
-  vars:
-    docker_compose_version: "1.29.2"
-  when: not docker_compose_global.stat.exists
-
-- name: "Check docker-compose was downloaded"
-  stat: path=~/docker-compose
-  register: docker_compose
-
-- name: Move docker-compose to /usr/local/bin/docker-compose
-  command: mv ~/docker-compose /usr/local/bin/docker-compose
-  when: docker_compose.stat.exists
-
 - name: "Add {{ username }} to docker group"
   user:
     name: "{{ username }}"
@@ -117,5 +94,5 @@
 - name: Ensure docker python SDK is installed
   community.general.python_requirements_info:
     dependencies:
-      - "docker>5.0.3"
+      - "docker>7.1.0"
       - "docker-compose>1.29.2"
