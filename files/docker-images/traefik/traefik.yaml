@@ -24,9 +24,9 @@ entryPoints:
 certificatesResolvers:
   leresolver:
     acme:
-      email: jannik@jannikwibker.dev
+      email: me@janina.lol
       storage: /letsencrypt/acme.json
-      caserver: https://acme-v02.api.letsencrypt.org/directory
-      #caserver: https://acme-staging-v02.api.letsencrypt.org/directory
+      #caServer: https://acme-v02.api.letsencrypt.org/directory
+      #caServer: https://acme-staging-v02.api.letsencrypt.org/directory
       httpChallenge:
         entryPoint: web

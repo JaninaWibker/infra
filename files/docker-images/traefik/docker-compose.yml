@@ -1,6 +1,6 @@
 services:
   traefik:
-    image: "traefik:v2.5"
+    image: "traefik:v2.11"
     container_name: traefik
     ports:
       #- "8080:8080" # dashboard
@@ -19,7 +19,7 @@ services:
       #- "traefik.http.routers.dashboard.middlewares=dashboard-auth"
       #- "traefik.http.routers.dashboard.tls.certresolver=leresolver"
       #- "traefik.http.middlewares.dashboard-auth.basicauth.usersFile=/etc/traefik/auth"
-      - "lighthouse.base=traefik:v2.5"
+      - "lighthouse.base=traefik:v2.11"
     networks:
       - infra-network
     restart: always

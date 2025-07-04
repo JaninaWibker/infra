@@ -40,4 +40,3 @@
 - import_tasks: ./tasks/containers/school-docs.yml
 - import_tasks: ./tasks/containers/traefik.yml
 - import_tasks: ./tasks/containers/website-janina.yml
-- import_tasks: ./tasks/containers/website-jannik.yml
