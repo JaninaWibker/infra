@@ -68,4 +68,8 @@ ddupdate:
     - ZONE_ID: "<cloudflare zone id>"
     - ZONE_AUTH_USER: "<cloudflare username/email>"
     - ZONE_AUTH_KEY: "<cloudflare api key>"
+
+paperless:
+  SECRET_KEY: "..."
+  DB_PASSWORD: "..."
 ```

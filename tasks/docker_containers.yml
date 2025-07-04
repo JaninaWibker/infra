@@ -30,6 +30,10 @@
     - traefik-logs
     - traefik-certs
     - kuma-data
+    - paperless-ngx-redis
+    - paperless-ngx-postgres
+    - paperless-ngx-data
+    - paperless-ngx-media
 
 - name: Ensure docker network is created
   community.docker.docker_network:
@@ -40,3 +44,4 @@
 - import_tasks: ./tasks/containers/school-docs.yml
 - import_tasks: ./tasks/containers/traefik.yml
 - import_tasks: ./tasks/containers/website-janina.yml
+- import_tasks: ./tasks/containers/paperless.yml
