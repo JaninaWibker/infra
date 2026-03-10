@@ -4,9 +4,12 @@
     dest: '/home/{{ username }}/docker-images/school-docs/repo'
     single_branch: true
     version: 'main'
+  register: 'repo'
 
 - name: 'Ensure school-docs is running'
   community.docker.docker_compose_v2:
     project_src: '/home/{{ username }}/docker-images/school-docs'
     env_files:
       - '/home/{{ username }}/docker-images/.env'
+    recreate: "{{ (repo.changed) | ternary('always', 'auto') }}"
+    build: "{{ (repo.changed) | ternary('always', 'policy') }}"
