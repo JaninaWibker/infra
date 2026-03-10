@@ -2,7 +2,7 @@
   git:
     repo: "https://github.com/JaninaWibker/dd-update"
     dest: "/home/{{ username }}/dd-update"
-    single_branch: yes
+    single_branch: true
     version: master
 
 - name: Ensure dd-update config exists

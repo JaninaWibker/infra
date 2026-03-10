@@ -1,7 +1,7 @@
 - name: Update packages
   apt:
-    update_cache: yes
-    upgrade: yes
+    update_cache: true
+    upgrade: true
     cache_valid_time: 3600
 
 - name: Install common packages
@@ -47,7 +47,7 @@
   apt:
     name: "{{ packages }}"
     state: present
-    update_cache: yes
+    update_cache: true
   vars:
     packages:
     - docker-ce
@@ -88,7 +88,7 @@
   service:
     name: docker
     state: restarted
-    daemon_reload: yes
+    daemon_reload: true
   when: docker_service.changed
 
 - name: Ensure docker python SDK is installed

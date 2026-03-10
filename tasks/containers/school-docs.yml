@@ -2,7 +2,7 @@
   git:
     repo: "https://github.com/JaninaWibker/school-docs"
     dest: "/home/{{ username }}/docker-images/school-docs/repo"
-    single_branch: yes
+    single_branch: true
     version: main
 
 - name: Ensure school-docs is running
