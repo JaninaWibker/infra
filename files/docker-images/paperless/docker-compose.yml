@@ -1,73 +1,73 @@
 services:
   paperless:
-    image: "ghcr.io/paperless-ngx/paperless-ngx:latest"
-    container_name: paperless
+    image: 'ghcr.io/paperless-ngx/paperless-ngx:latest'
+    container_name: 'paperless'
     depends_on:
-      - broker
-      - db
-    restart: unless-stopped
+      - 'broker'
+      - 'db'
+    restart: 'unless-stopped'
     networks:
-      - infra-network
-      - paperless-network
+      - 'infra-network'
+      - 'paperless-network'
     volumes:
-      - paperless-data:/usr/src/paperless/data
-      - paperless-media:/usr/src/paperless/media
+      - 'paperless-data:/usr/src/paperless/data'
+      - 'paperless-media:/usr/src/paperless/media'
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.services.paperless.loadbalancer.server.port=8000"
-      - "traefik.http.routers.paperless.rule=Host(`paperless.${BASE_URL}`)"
-      - "traefik.http.routers.paperless.entrypoints=websecure"
-      - "traefik.http.routers.paperless.tls=true"
-      - "traefik.http.routers.paperless.tls.certresolver=leresolver"
+      - 'traefik.enable=true'
+      - 'traefik.http.services.paperless.loadbalancer.server.port=8000'
+      - 'traefik.http.routers.paperless.rule=Host(`paperless.${BASE_URL}`)'
+      - 'traefik.http.routers.paperless.entrypoints=websecure'
+      - 'traefik.http.routers.paperless.tls=true'
+      - 'traefik.http.routers.paperless.tls.certresolver=leresolver'
     environment:
-      PAPERLESS_REDIS: redis://broker:6379
-      PAPERLESS_DBHOST: db
-      PAPERLESS_DBUSER: paperless
-      PAPERLESS_DBPASS: "${PAPERLESS_DB_PASSWORD}"
-      PAPERLESS_URL: "https://paperless.${BASE_URL}"
-      PAPERLESS_SECRET_KEY: "${PAPERLESS_SECRET_KEY}"
-      PAPERLESS_TIMEZONE: "Europe/Berlin"
-      PAPERLESS_OCR_LANGUAGE: "deu"
+      PAPERLESS_REDIS: 'redis://broker:6379'
+      PAPERLESS_DBHOST: 'db'
+      PAPERLESS_DBUSER: 'paperless'
+      PAPERLESS_DBPASS: '${PAPERLESS_DB_PASSWORD}'
+      PAPERLESS_URL: 'https://paperless.${BASE_URL}'
+      PAPERLESS_SECRET_KEY: '${PAPERLESS_SECRET_KEY}'
+      PAPERLESS_TIMEZONE: 'Europe/Berlin'
+      PAPERLESS_OCR_LANGUAGE: 'deu'
 
   broker:
-    image: docker.io/library/redis:8
-    restart: unless-stopped
+    image: 'docker.io/library/redis:8'
+    restart: 'unless-stopped'
     networks:
-      - paperless-network
+      - 'paperless-network'
     volumes:
-      - paperless-redis-data:/data
+      - 'paperless-redis-data:/data'
 
   db:
-    image: docker.io/library/postgres:17
-    restart: unless-stopped
+    image: 'docker.io/library/postgres:17'
+    restart: 'unless-stopped'
     networks:
-      - paperless-network
+      - 'paperless-network'
     volumes:
-      - paperless-postgres-data:/var/lib/postgresql/data
+      - 'paperless-postgres-data:/var/lib/postgresql/data'
     environment:
-      POSTGRES_DB: paperless
-      POSTGRES_USER: paperless
-      POSTGRES_PASSWORD: "${PAPERLESS_DB_PASSWORD}"
+      POSTGRES_DB: 'paperless'
+      POSTGRES_USER: 'paperless'
+      POSTGRES_PASSWORD: '${PAPERLESS_DB_PASSWORD}'
 
 networks:
   paperless-network:
   infra-network:
     external: true
-    name: my-bridge
+    name: 'my-bridge'
 
 volumes:
   paperless-redis-data:
     external: true
-    name: paperless-ngx-redis
+    name: 'paperless-ngx-redis'
 
   paperless-postgres-data:
     external: true
-    name: paperless-ngx-postgres
+    name: 'paperless-ngx-postgres'
 
   paperless-data:
     external: true
-    name: paperless-ngx-data
+    name: 'paperless-ngx-data'
 
   paperless-media:
     external: true
-    name: paperless-ngx-media
+    name: 'paperless-ngx-media'

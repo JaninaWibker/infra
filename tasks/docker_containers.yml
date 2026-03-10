@@ -1,47 +1,47 @@
-- name: Ensure docker-image files are present
+- name: 'Ensure docker-image files are present'
   become: false
   ansible.posix.synchronize:
-    src: "./files/docker-images"
-    dest: "/home/{{ username }}/"
-    private_key: "{{ ansible_ssh_private_key_file }}"
+    src: './files/docker-images'
+    dest: '/home/{{ username }}/'
+    private_key: '{{ ansible_ssh_private_key_file }}'
     use_ssh_args: true
     archive: false
     recursive: true
     checksum: true
     rsync_opts:
-      - "--exclude=.env"                           # this uses a template (this file)
-      - "--exclude=gitea/app.ini.j2"               # this uses a template (containers/gitea.yml)
-      - "--exclude=website-janina/repo"            # this uses git role   (containers/website-janina.yml)
-      - "--exclude=school-docs/repo"               # this uses git role   (containers/school-docs.yml)
+      - '--exclude=.env' # this uses a template (this file)
+      - '--exclude=gitea/app.ini.j2' # this uses a template (containers/gitea.yml)
+      - '--exclude=website-janina/repo' # this uses git role   (containers/website-janina.yml)
+      - '--exclude=school-docs/repo' # this uses git role   (containers/school-docs.yml)
 
-- name: Ensure .env file for docker-compose is generated
+- name: 'Ensure .env file for docker-compose is generated'
   template:
-    src: "./files/dotenv.j2"
-    dest: "/home/{{ username }}/docker-images/.env"
+    src: './files/dotenv.j2'
+    dest: '/home/{{ username }}/docker-images/.env'
 
-- name: Ensure docker volumes are created
+- name: 'Ensure docker volumes are created'
   community.docker.docker_volume:
-    volume_name: "{{ item }}"
-    state: "present"
+    volume_name: '{{ item }}'
+    state: 'present'
   loop:
-    - gitea-data
-    - portainer-data
-    - vaultwarden-data
-    - traefik-logs
-    - traefik-certs
-    - kuma-data
-    - paperless-ngx-redis
-    - paperless-ngx-postgres
-    - paperless-ngx-data
-    - paperless-ngx-media
+    - 'gitea-data'
+    - 'portainer-data'
+    - 'vaultwarden-data'
+    - 'traefik-logs'
+    - 'traefik-certs'
+    - 'kuma-data'
+    - 'paperless-ngx-redis'
+    - 'paperless-ngx-postgres'
+    - 'paperless-ngx-data'
+    - 'paperless-ngx-media'
 
-- name: Ensure docker network is created
+- name: 'Ensure docker network is created'
   community.docker.docker_network:
-    name: my-bridge
+    name: 'my-bridge'
 
-- import_tasks: ./tasks/containers/bitwarden.yml
-- import_tasks: ./tasks/containers/portainer.yml
-- import_tasks: ./tasks/containers/school-docs.yml
-- import_tasks: ./tasks/containers/traefik.yml
-- import_tasks: ./tasks/containers/website-janina.yml
-- import_tasks: ./tasks/containers/paperless.yml
+- import_tasks: './tasks/containers/bitwarden.yml'
+- import_tasks: './tasks/containers/portainer.yml'
+- import_tasks: './tasks/containers/school-docs.yml'
+- import_tasks: './tasks/containers/traefik.yml'
+- import_tasks: './tasks/containers/website-janina.yml'
+- import_tasks: './tasks/containers/paperless.yml'

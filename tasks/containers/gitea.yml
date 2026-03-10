@@ -1,11 +1,9 @@
-- name: Ensure app.ini template is generated correctly
+- name: 'Ensure app.ini template is generated correctly'
   template:
-    src: "./files/docker-images/gitea/app.ini.j2"
-    dest: "/home/{{ username }}/docker-images/gitea/app.ini"
-
+    src: './files/docker-images/gitea/app.ini.j2'
+    dest: '/home/{{ username }}/docker-images/gitea/app.ini'
 #- name: Ensure gitea is running
 #  community.docker.docker_compose_v2:
 #    project_src: "/home/{{ username }}/docker-images/gitea"
 #    env_files:
 #      - "/home/{{ username }}/docker-images/.env"
-

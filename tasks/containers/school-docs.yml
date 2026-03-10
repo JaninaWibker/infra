@@ -1,12 +1,12 @@
-- name: Ensure school-docs repo is up to date
+- name: 'Ensure school-docs repo is up to date'
   git:
-    repo: "https://github.com/JaninaWibker/school-docs"
-    dest: "/home/{{ username }}/docker-images/school-docs/repo"
+    repo: 'https://github.com/JaninaWibker/school-docs'
+    dest: '/home/{{ username }}/docker-images/school-docs/repo'
     single_branch: true
-    version: main
+    version: 'main'
 
-- name: Ensure school-docs is running
+- name: 'Ensure school-docs is running'
   community.docker.docker_compose_v2:
-    project_src: "/home/{{ username }}/docker-images/school-docs"
+    project_src: '/home/{{ username }}/docker-images/school-docs'
     env_files:
-      - "/home/{{ username }}/docker-images/.env"
+      - '/home/{{ username }}/docker-images/.env'

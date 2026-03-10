@@ -1,98 +1,98 @@
-- name: Update packages
+- name: 'Update packages'
   apt:
     update_cache: true
     upgrade: true
     cache_valid_time: 3600
 
-- name: Install common packages
+- name: 'Install common packages'
   apt:
-    name: "{{ packages }}"
-    state: latest
+    name: '{{ packages }}'
+    state: 'latest'
   vars:
     packages:
-    - zsh
-    - gcc
-    - g++
-    - vim
-    - jq
-    - git
-    - cloc
-    - ffmpeg
-    - curl
-    - wget
-    - net-tools
-    - python3
-    - lua5.3
-    - sqlite3
-    - neofetch
-    - ca-certificates
-    - gnupg
-    - lsb-release
-    - python3-pip
-    - python3-docker
-    - python3-compose
-    - rsync
+      - 'zsh'
+      - 'gcc'
+      - 'g++'
+      - 'vim'
+      - 'jq'
+      - 'git'
+      - 'cloc'
+      - 'ffmpeg'
+      - 'curl'
+      - 'wget'
+      - 'net-tools'
+      - 'python3'
+      - 'lua5.3'
+      - 'sqlite3'
+      - 'neofetch'
+      - 'ca-certificates'
+      - 'gnupg'
+      - 'lsb-release'
+      - 'python3-pip'
+      - 'python3-docker'
+      - 'python3-compose'
+      - 'rsync'
 
-- name: Add an apt signing key for Docker
+- name: 'Add an apt signing key for Docker'
   apt_key:
-    url: https://download.docker.com/linux/ubuntu/gpg
-    state: present
+    url: 'https://download.docker.com/linux/ubuntu/gpg'
+    state: 'present'
 
-- name: Add apt repository for stable version
+- name: 'Add apt repository for stable version'
   apt_repository:
-    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
-    state: present
+    repo: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable'
+    state: 'present'
 
-- name: Install Docker
+- name: 'Install Docker'
   apt:
-    name: "{{ packages }}"
-    state: present
+    name: '{{ packages }}'
+    state: 'present'
     update_cache: true
   vars:
     packages:
-    - docker-ce
-    - docker-ce-cli
-    - containerd.io
+      - 'docker-ce'
+      - 'docker-ce-cli'
+      - 'containerd.io'
 
-- name: "Add {{ username }} to docker group"
+- name: 'Add {{ username }} to docker group'
   user:
-    name: "{{ username }}"
-    group: docker
+    name: '{{ username }}'
+    group: 'docker'
 
-- name: ensure ssh password login is disabled
+- name: 'ensure ssh password login is disabled'
   lineinfile:
-    dest: /etc/ssh/sshd_config
-    regexp: "^#PasswordAuthentication yes"
-    line: "PasswordAuthentication no"
-  register: sshd_config
+    dest: '/etc/ssh/sshd_config'
+    regexp: '^#PasswordAuthentication yes'
+    line: 'PasswordAuthentication no'
+  register: 'sshd_config'
 
-- name: Ensure ssh daemon has been restarted
+- name: 'Ensure ssh daemon has been restarted'
   service:
-    name: sshd
-    state: restarted
-  when: sshd_config.changed
+    name: 'sshd'
+    state: 'restarted'
+  when: 'sshd_config.changed'
 
-- name: Ensure docker-data folder exists
+- name: 'Ensure docker-data folder exists'
   file:
-    path: "/home/{{ username }}/docker-data"
-    state: directory
+    path: '/home/{{ username }}/docker-data'
+    state: 'directory'
 
-- name: Ensure docker-data folder is set correctly
+- name: 'Ensure docker-data folder is set correctly'
   lineinfile:
-    dest: /lib/systemd/system/docker.service
-    regexp: "ExecStart=/usr/bin/dockerd -H fd://"
-    line: "ExecStart=/usr/bin/dockerd -H fd:// --data-root=/home/{{ username }}/docker-data"
-  register: docker_service
+    dest: '/lib/systemd/system/docker.service'
+    regexp: 'ExecStart=/usr/bin/dockerd -H fd://'
+    line: 'ExecStart=/usr/bin/dockerd -H fd:// --data-root=/home/{{ username }}/docker-data'
+  register: 'docker_service'
 
-- name: Ensure docker daemon is restarted if needed
+- name: 'Ensure docker daemon is restarted if needed'
   service:
-    name: docker
-    state: restarted
+    name: 'docker'
+    state: 'restarted'
     daemon_reload: true
-  when: docker_service.changed
+  when: 'docker_service.changed'
 
-- name: Ensure docker python SDK is installed
+- name: 'Ensure docker python SDK is installed'
   community.general.python_requirements_info:
     dependencies:
-      - "docker>7.1.0"
-      - "docker-compose>1.29.2"
+      - 'docker>7.1.0'
+      - 'docker-compose>1.29.2'

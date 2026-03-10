@@ -3,13 +3,14 @@
 This repository aims to include all infrastructure related things that are needed to run my home server setup.
 
 The main components used are:
+
 - ansible
 - docker with docker-compose
-
 
 ## What is included?
 
 The following services will be run:
+
 - personal identity provider (auth) (WIP)
 - bitwarden (vaultwarden)
 - git server (gitea)
@@ -42,8 +43,8 @@ To run this the following has to be done / configured:
 ## vars.yml
 
 ```yaml
-username: "docker-user"
-base_url: "example.com" # used in traefik labels, allows easily changing the domain
+username: 'docker-user'
+base_url: 'example.com' # used in traefik labels, allows easily changing the domain
 ```
 
 ## ansible-vault
@@ -53,23 +54,25 @@ base_url: "example.com" # used in traefik labels, allows easily changing the dom
 This is the structure of my secret.yml file:
 
 ```yaml
-gitea: # gitea generates these values itself when they can't be found in the config file; start gitea without them and extract them afterwards
-  LFS_JWT_SECRET: "..."
-  INTERNAL_TOKEN: "..."
-  SECRET_KEY: "..."
+gitea:
+  # gitea generates these values itself when they can't be found in the config file; start gitea without them and extract them afterwards
+  LFS_JWT_SECRET: '...'
+  INTERNAL_TOKEN: '...'
+  SECRET_KEY: '...'
 
-github: # used for cloning private repositories
-  USERNAME: "..."
-  PASSWORD: "github_pat_..."
+github:
+  # used for cloning private repositories
+  USERNAME: '...'
+  PASSWORD: 'github_pat_...'
 
 ddupdate:
   zones:
-    - ZONE_NAME: "example.com"
-    - ZONE_ID: "<cloudflare zone id>"
-    - ZONE_AUTH_USER: "<cloudflare username/email>"
-    - ZONE_AUTH_KEY: "<cloudflare api key>"
+    - ZONE_NAME: 'example.com'
+    - ZONE_ID: '<cloudflare zone id>'
+    - ZONE_AUTH_USER: '<cloudflare username/email>'
+    - ZONE_AUTH_KEY: '<cloudflare api key>'
 
 paperless:
-  SECRET_KEY: "..."
-  DB_PASSWORD: "..."
+  SECRET_KEY: '...'
+  DB_PASSWORD: '...'
 ```
