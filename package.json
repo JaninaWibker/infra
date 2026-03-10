@@ -1,0 +1,17 @@
+{
+  "name": "infra",
+  "version": "1.0.0",
+  "author": "Janina Wibker <me@janina.lol>",
+  "private": true,
+  "scripts": {
+    "playbook:run": "ansible-playbook playbook.yml --ask-vault-pass --ask-become-pass",
+    "vault:edit": "ansible-vault edit group_vars/all/secret.yml",
+    "format:check": "prettier --check .",
+    "format:fix": "prettier --write ."
+  },
+  "devDependencies": {
+    "prettier": "^3.8.1",
+    "prettier-plugin-yaml": "^1.1.2"
+  },
+  "packageManager": "bun@1.3.8"
+}

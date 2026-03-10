@@ -1,0 +1,11 @@
+**/*.*
+!*.yaml
+!*.yml
+
+# unignore markdown files
+# - this makes sure that markdown files themselves are also formatted
+# - and that yaml codeblocks within are considered for formatting as well
+!*.md
+
+# ignore ansible-vault files, this isn't valid yaml and will cause problems
+secret.yml
