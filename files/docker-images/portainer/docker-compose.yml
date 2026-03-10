@@ -2,7 +2,7 @@ services:
   portainer:
     image: cr.portainer.io/portainer/portainer-ce:2.9.3
     container_name: portainer
-    restart: always
+    restart: unless-stopped
     networks:
       - infra-network
     volumes:

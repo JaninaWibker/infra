@@ -8,7 +8,7 @@ services:
       - USER=docker-user
       - USER_UID=1001
       - USER_GID=1001
-    restart: always
+    restart: unless-stopped
     networks:
       - infra-network
     volumes:
