@@ -11,7 +11,7 @@
     rsync_opts:
       - "--exclude=.env"                           # this uses a template (this file)
       - "--exclude=gitea/app.ini.j2"               # this uses a template (containers/gitea.yml)
-      - "--exclude=website/repo"                   # this uses git role   (containers/website.yml)
+      - "--exclude=website-janina/repo"            # this uses git role   (containers/website-janina.yml)
       - "--exclude=school-docs/repo"               # this uses git role   (containers/school-docs.yml)
 
 - name: Ensure .env file for docker-compose is generated
