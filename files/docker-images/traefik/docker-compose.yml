@@ -1,6 +1,6 @@
 services:
   traefik:
-    image: 'traefik:v2.11'
+    image: 'docker.io/library/traefik:v2.11'
     container_name: 'traefik'
     ports:
       #- "8080:8080" # dashboard

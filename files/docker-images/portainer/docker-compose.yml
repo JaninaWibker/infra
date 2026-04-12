@@ -1,6 +1,6 @@
 services:
   portainer:
-    image: 'cr.portainer.io/portainer/portainer-ce:2.9.3'
+    image: 'docker.io/portainer/portainer-ce:2.39.1'
     container_name: 'portainer'
     restart: 'unless-stopped'
     networks:

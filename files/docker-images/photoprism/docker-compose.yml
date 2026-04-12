@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   photoprism:
-    image: 'photoprism/photoprism:latest'
+    image: 'docker.io/photoprism/photoprism:latest'
     container_name: 'photoprism'
     depends_on:
       - 'mariadb'
@@ -54,7 +54,7 @@ services:
       - 'traefik.http.routers.photoprism.tls.certresolver=leresolver'
 
   mariadb:
-    image: 'mariadb:10.6'
+    image: 'docker.io/library/mariadb:10.6'
     container_name: 'photoprism-mariadb'
     restart: 'unless-stopped'
     networks:
