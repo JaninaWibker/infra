@@ -1,0 +1,28 @@
+services:
+  registry:
+    image: 'docker.io/library/registry:3'
+    restart: 'unless-stopped'
+    networks:
+      - 'infra-network'
+    volumes:
+      - ./config.yml:/etc/distribution/config.yml:ro # read-only
+      - './auth:/auth:ro' # read-only
+      - 'registry-data:/var/lib/registry'
+    ports: []
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.services.registry.loadbalancer.server.port=5000'
+      - 'traefik.http.routers.registry.rule=Host(`registry.${BASE_URL}`)'
+      - 'traefik.http.routers.registry.entrypoints=websecure'
+      - 'traefik.http.routers.registry.tls=true'
+      - 'traefik.http.routers.registry.tls.certresolver=leresolver'
+
+volumes:
+  registry-data:
+    external: true
+    name: 'registry-data'
+
+networks:
+  infra-network:
+    external: true
+    name: 'my-bridge'

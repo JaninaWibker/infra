@@ -10,9 +10,10 @@
     checksum: true
     rsync_opts:
       - '--exclude=.env' # this uses a template (this file)
-      - '--exclude=gitea/app.ini.j2' # this uses a template (containers/gitea.yml)
-      - '--exclude=website-janina/repo' # this uses git role   (containers/website-janina.yml)
-      - '--exclude=school-docs/repo' # this uses git role   (containers/school-docs.yml)
+      - '--exclude=gitea/app.ini.j2' # this uses a template       (containers/gitea.yml)
+      - '--exclude=website-janina/repo' # this uses git role      (containers/website-janina.yml)
+      - '--exclude=school-docs/repo' # this uses git role         (containers/school-docs.yml)
+      - '--exclude=registry/auth/'   # this needs to be generated (containers/registry.yml)
 
 - name: 'Ensure .env file for docker-compose is generated'
   template:
@@ -34,11 +35,13 @@
     - 'paperless-ngx-postgres'
     - 'paperless-ngx-data'
     - 'paperless-ngx-media'
+    - 'registry-data'
 
 - name: 'Ensure docker network is created'
   community.docker.docker_network:
     name: 'my-bridge'
 
+- import_tasks: './tasks/containers/registry.yml' # needs to come first, because other containers may depend on it
 - import_tasks: './tasks/containers/bitwarden.yml'
 - import_tasks: './tasks/containers/portainer.yml'
 - import_tasks: './tasks/containers/school-docs.yml'

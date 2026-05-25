@@ -32,6 +32,7 @@
       - 'python3-docker'
       - 'python3-compose'
       - 'rsync'
+      - 'apache2-utils'
 
 - name: 'Add an apt signing key for Docker'
   apt_key:

@@ -75,4 +75,9 @@ ddupdate:
 paperless:
   SECRET_KEY: '...'
   DB_PASSWORD: '...'
+
+registry:
+  users:
+    - { NAME: '...', password: '...' }
+    - { NAME: '...', password: '...' }
 ```

@@ -1,2 +1,0 @@
-[netcup]
-netcup ansible_host=v2202401157827255033.supersrv.de ansible_user=docker-user ansible_connection=ssh ansible_ssh_private_key_file=~/.ssh/netcup-vps-ansible.ed25519 ansible_python_interpreter=/usr/bin/python3

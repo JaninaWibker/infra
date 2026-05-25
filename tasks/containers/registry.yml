@@ -1,0 +1,46 @@
+
+- name: 'Ensure htpasswd file exists and is up-to-date'
+  vars:
+    registry_auth_dir_controller: '{{ playbook_dir }}/files/docker-images/registry/auth'
+    registry_htpasswd_controller: '{{ playbook_dir }}/files/docker-images/registry/auth/registry-htpasswd'
+    registry_auth_dir_host: '/home/{{ username }}/docker-images/registry/auth/'
+    registry_htpasswd_host: '/home/{{ username }}/docker-images/registry/auth/htpasswd'
+  block:
+    - name: Build bcrypt htpasswd entries (controller)
+      become: false
+      no_log: true
+      changed_when: false
+      local_action: ansible.builtin.command
+      args:
+        cmd: 'htpasswd -Bbn {{ item.NAME }} {{ item.PASSWORD }}'
+      loop: '{{ registry.users }}'
+      loop_control:
+        label: '{{ item.NAME }}'
+      register: htpasswd_entries
+
+    - name: Generate htpasswd file (controller)
+      become: false
+      delegate_to: localhost
+      local_action: ansible.builtin.copy
+      args:
+        dest: '{{ registry_htpasswd_controller }}'
+        content: "{{ (htpasswd_entries.results | map(attribute='stdout') | list | join('\n')) ~ '\n' }}"
+        mode: '0600'
+
+    - name: Ensure registry auth directory exists on host
+      ansible.builtin.file:
+        path: '{{ registry_auth_dir_host }}'
+        state: directory
+        mode: '0700'
+
+    - name: Ensure htpasswd file exists on host
+      ansible.builtin.copy:
+        src: '{{ registry_htpasswd_controller }}'
+        dest: '{{ registry_htpasswd_host }}'
+        mode: '0600'
+
+- name: 'Ensure docker registry is running'
+  community.docker.docker_compose_v2:
+    project_src: '/home/{{ username }}/docker-images/registry'
+    env_files:
+      - '/home/{{ username }}/docker-images/.env'
