@@ -1,17 +1,20 @@
-- name: 'Ensure dd-update is installed'
-  git:
-    repo: 'https://github.com/JaninaWibker/dd-update'
-    dest: '/home/{{ username }}/dd-update'
-    single_branch: true
-    version: 'master'
+- name: dd-update
+  tags: ['dd-update']
+  block:
+    - name: 'Ensure dd-update is installed'
+      git:
+        repo: 'https://github.com/JaninaWibker/dd-update'
+        dest: '/home/{{ username }}/dd-update'
+        single_branch: true
+        version: 'master'
 
-- name: 'Ensure dd-update config exists'
-  template:
-    src: './files/dd-update.yml.j2'
-    dest: '/home/{{ username }}/dd-update/dd-update.yml'
+    - name: 'Ensure dd-update config exists'
+      template:
+        src: './files/dd-update.yml.j2'
+        dest: '/home/{{ username }}/dd-update/dd-update.yml'
 
-- name: 'Ensure dd-update cronjob exists'
-  cron:
-    name: 'update A record entry using dd-update'
-    minute: '*/5'
-    job: 'cd /home/{{ username }}/dd-update && python3 dd-update.py'
+    - name: 'Ensure dd-update cronjob exists'
+      cron:
+        name: 'update A record entry using dd-update'
+        minute: '*/5'
+        job: 'cd /home/{{ username }}/dd-update && python3 dd-update.py'
