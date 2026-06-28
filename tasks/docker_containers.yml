@@ -47,9 +47,9 @@
     tags: ['docker', 'network']
 
   - import_tasks: './tasks/containers/registry.yml' # needs to come first, because other containers may depend on it
-  # - import_tasks: './tasks/containers/bitwarden.yml'
-  # - import_tasks: './tasks/containers/portainer.yml'
-  # - import_tasks: './tasks/containers/school-docs.yml'
-  # - import_tasks: './tasks/containers/traefik.yml'
-  # - import_tasks: './tasks/containers/website-janina.yml'
-  # - import_tasks: './tasks/containers/paperless.yml'
+  - import_tasks: './tasks/containers/bitwarden.yml'
+  - import_tasks: './tasks/containers/portainer.yml'
+  - import_tasks: './tasks/containers/school-docs.yml'
+  - import_tasks: './tasks/containers/traefik.yml'
+  - import_tasks: './tasks/containers/website-janina.yml'
+  - import_tasks: './tasks/containers/paperless.yml'

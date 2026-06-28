@@ -80,4 +80,9 @@ registry:
   users:
     - { NAME: '...', password: '...' }
     - { NAME: '...', password: '...' }
+
+  # repeated from above, used when accessing own docker images in other docker-compose files
+  login:
+    USERNAME: '...'
+    PASSWORD: '...'
 ```
