@@ -5,12 +5,18 @@
     password: '{{ registry.login.PASSWORD }}'
     reauthorize: true
 
-- name: 'Ensure docker image for website-janina is pulled and tagged correctly'
-  community.docker.docker_image:
+- name: 'Ensure docker image for website-janina is pulled correctly'
+  register: image_pull
+  community.docker.docker_image_pull:
     name: 'registry.janina.lol/website-janina:latest'
-    source: 'pull'
-    repository: 'website-janina:latest'
-    force_tag: true
+
+- name: 'Ensure docker image for website-janina is tagged correctly'
+  community.docker.docker_image_tag:
+    existing_images: 'overwrite'
+    name: 'registry.janina.lol/website-janina:latest' # input tag
+    repository: # output tag(s)
+      - 'website-janina:latest'
+      - 'registry.janina.lol/website-janina:latest'
 
 - name: 'Ensure website-janina is running'
   community.docker.docker_compose_v2:
